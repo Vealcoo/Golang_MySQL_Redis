@@ -16,7 +16,11 @@ func NewMysqlTodoRepository(c *sql.DB) model.TodoRepository {
 }
 
 func (m *mysqlTodoRepository) Create(title, content string) (int64, error) {
-	result, err := m.db.Exec("INSERT INTO list (title, content) values (?, ?)", title, content)
+	ins, err := m.db.Prepare("INSERT INTO list (title, content) values (?, ?)")
+	if err != nil {
+		return 0, err
+	}
+	result, err := ins.Exec(title, content)
 	if err != nil {
 		return 0, err
 	}
@@ -25,7 +29,11 @@ func (m *mysqlTodoRepository) Create(title, content string) (int64, error) {
 }
 
 func (m *mysqlTodoRepository) Delete(listid string) (int64, error) {
-	result, err := m.db.Exec("DELETE FROM list WHERE listid=?", listid)
+	ins, err := m.db.Prepare("DELETE FROM list WHERE listid=?")
+	if nil != err {
+		return 0, err
+	}
+	result, err := ins.Exec(listid)
 	if err != nil {
 		return 0, err
 	}
@@ -37,7 +45,11 @@ func (m *mysqlTodoRepository) Delete(listid string) (int64, error) {
 }
 
 func (m *mysqlTodoRepository) Update(listid, title, content string) (int64, error) {
-	result, err := m.db.Exec("UPDATE list SET title=?, content=? WHERE listid=?", title, content, listid)
+	ins, err := m.db.Prepare("UPDATE list SET title=?, content=? WHERE listid=?")
+	if err != nil {
+		return 0, err
+	}
+	result, err := ins.Exec(title, content, listid)
 	if err != nil {
 		return 0, err
 	}
