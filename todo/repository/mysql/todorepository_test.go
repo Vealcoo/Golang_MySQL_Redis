@@ -70,12 +70,12 @@ func TestUpdate(t *testing.T) {
 
 func TestGetAll(t *testing.T) {
 	mockLists := []model.List{
-		model.List{
+		{
 			Listid:  "1",
 			Title:   "test",
 			Content: "test",
 		},
-		model.List{
+		{
 			Listid:  "2",
 			Title:   "test2",
 			Content: "test2",
